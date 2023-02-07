@@ -3,6 +3,7 @@
 
 pragma solidity 0.8.10;
 import '@openzeppelin/contracts/utils/Counters.sol';
+import './Voter.sol';
 
 
 contract FCC{
@@ -23,6 +24,18 @@ contract FCC{
     event ProposalAdded(address indexed _owner, uint256 indexed _proposalId, uint256 funds);
 	event ProposalVoted(address indexed _voter, uint256 indexed _proposalId);
 
+    Voter public voter;
+
+    constructor(address _voterAddress){
+        voter = Voter(_voterAddress);
+
+    }
+
+    modifier onlyVoter(){
+        require(voter.checkVoterRole(msg.sender),"FCC:Unauthorized ");
+        _;
+    }
+
     function addProposal(proposal memory ProposalInfo) public{
         uint256 _id = proposalId.current();
         proposal storage proposalinfo = proposalInfo[_id];
@@ -34,7 +47,7 @@ contract FCC{
         emit ProposalAdded(msg.sender,_id,ProposalInfo.funding);
     }
 
-    function voteProposal(uint256 _proposalid) external {
+    function voteProposal(uint256 _proposalid) external  onlyVoter(){
 		proposal storage _proposalInfo = proposalInfo[_proposalid];
 		_proposalInfo.votes = ++_proposalInfo.votes;
 		emit ProposalVoted(msg.sender, _proposalid);

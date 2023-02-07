@@ -15,7 +15,12 @@ contract Voter is Ownable{
         bool isApproved;
         uint256 voterId;
     }
+
+
     mapping(address=>voter) public votersInfo;
+
+    event VoterAdded(address indexed _account, address indexed addedBy);
+    event VoterApproved(address indexed _account, address indexed approvedBy);
 
     function addVoter(string memory name,address _address) public{
         voters.increment();
@@ -24,16 +29,22 @@ contract Voter is Ownable{
         _voterInfo.wallet_address = _address;
         _voterInfo.voterId = voters.current();
 
+        emit VoterAdded(_address, msg.sender);
+
     }
 
     function approveVoter(address _account) public onlyOwner(){
         voter storage _voterInfo = votersInfo[_account];
         _voterInfo.isApproved = true;
+        emit VoterApproved(_account, msg.sender);
 
     }
 
     function getVoterInfo(address _account) public view returns(voter memory voterInfo){
         return (votersInfo[_account]);
 
+    }
+    function checkVoterRole(address _account) public view returns(bool){
+        return votersInfo[_account].isApproved;
     }
 }
