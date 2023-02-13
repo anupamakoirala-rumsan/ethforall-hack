@@ -51,15 +51,15 @@ contract FCC is Ownable{
         _;
     }
 
-    function addProposal(proposal memory ProposalInfo) public{
+    function addProposal(string memory name, string memory description, uint256 _funding) public{
         uint256 _id = proposalId.current();
         proposal storage proposalinfo = proposalInfo[_id];
-        proposalinfo.name = ProposalInfo.name;
-        proposalinfo.description = ProposalInfo.description;
-        proposalinfo.funding = ProposalInfo.funding;
+        proposalinfo.name = name;
+        proposalinfo.description = description;
+        proposalinfo.funding = _funding;
         proposalinfo.proposalId = _id;
         proposalId.increment();
-        emit ProposalAdded(msg.sender,_id,ProposalInfo.funding);
+        emit ProposalAdded(msg.sender,_id,_funding);
     }
 
     function voteProposal(uint256 _proposalid,bool status) external  onlyVoter(){
