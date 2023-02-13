@@ -9,6 +9,8 @@ contract Voter is Ownable{
 
     Counters.Counter private voters;
 
+    Counters.Counter private approvedVoters;
+
     struct voter{
         string name;
         address wallet_address;
@@ -36,6 +38,7 @@ contract Voter is Ownable{
     function approveVoter(address _account) public onlyOwner(){
         voter storage _voterInfo = votersInfo[_account];
         _voterInfo.isApproved = true;
+        approvedVoters.increment();
         emit VoterApproved(_account, msg.sender);
 
     }
@@ -46,5 +49,9 @@ contract Voter is Ownable{
     }
     function checkVoterRole(address _account) public view returns(bool){
         return votersInfo[_account].isApproved;
+    }
+
+    function getApprovedVoter() public view returns(uint256){
+        return approvedVoters.current();
     }
 }

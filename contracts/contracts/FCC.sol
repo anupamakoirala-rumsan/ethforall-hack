@@ -13,6 +13,9 @@ contract FCC is Ownable{
 
     EnumerableSet.UintSet private acceptedProposal;
 
+    EnumerableSet.UintSet private rejectedProposal;
+
+
     Counters.Counter private proposalId;
 
     struct proposal{
@@ -20,7 +23,8 @@ contract FCC is Ownable{
         string description;
         uint256 funding;
         uint256 proposalId;
-        uint256 votes;
+        uint256 positiveVotes;
+        uint256 negativeVotes;
     }
 
 
@@ -29,14 +33,16 @@ contract FCC is Ownable{
     uint256 public VOTE_REQUIRED_FOR_APPROVAL;
 
     event ProposalAdded(address indexed _owner, uint256 indexed _proposalId, uint256 funds);
-	event ProposalVoted(address indexed _voter, uint256 indexed _proposalId);
+	event ProposalVoted(address indexed _voter, uint256 indexed _proposalId, bool status);
     event ProposalAccepted(address indexed _finalVoter,uint256 indexed _proposalId, uint256 funds);
+    event ProposalRejected(address indexed _finalVoter,uint256 indexed _proposalId, uint256 funds);
+
     event ProposalMinVoteChanged(address indexed _changedBy, uint256 _newVoteRequired);
     Voter public voter;
 
     constructor(address _voterAddress){
         voter = Voter(_voterAddress);
-        VOTE_REQUIRED_FOR_APPROVAL = 3;
+        VOTE_REQUIRED_FOR_APPROVAL = 7000; //70%
 
     }
 
@@ -56,15 +62,26 @@ contract FCC is Ownable{
         emit ProposalAdded(msg.sender,_id,ProposalInfo.funding);
     }
 
-    function voteProposal(uint256 _proposalid) external  onlyVoter(){
+    function voteProposal(uint256 _proposalid,bool status) external  onlyVoter(){
         require(!acceptedProposal.contains(_proposalid), "FCC:Proposal already accepted");
+        require(!rejectedProposal.contains(_proposalid), "FCC:Proposal already rejected");
 		proposal storage _proposalInfo = proposalInfo[_proposalid];
-		_proposalInfo.votes = ++_proposalInfo.votes;
-        if(_proposalInfo.votes >= VOTE_REQUIRED_FOR_APPROVAL){
+        if(status){
+            _proposalInfo.positiveVotes = ++_proposalInfo.positiveVotes;
+            uint256 totalVotes = calculateVoteper10000(VOTE_REQUIRED_FOR_APPROVAL);
+        if(_proposalInfo.positiveVotes >= totalVotes){
             acceptedProposal.add(_proposalid);
-            emit ProposalAccepted(msg.sender, _proposalid, _proposalInfo.funding);
+            emit ProposalAccepted(msg.sender, _proposalid, _proposalInfo.funding);}
         }
-		emit ProposalVoted(msg.sender, _proposalid);
+        if(!status){
+            _proposalInfo.negativeVotes = ++_proposalInfo.negativeVotes;
+            uint256 totalVotes = calculateVoteper10000(10000-VOTE_REQUIRED_FOR_APPROVAL);
+
+        if(_proposalInfo.negativeVotes >= totalVotes){
+            rejectedProposal.add(_proposalid);
+            emit ProposalRejected(msg.sender, _proposalid, _proposalInfo.funding);}
+        }
+		emit ProposalVoted(msg.sender, _proposalid,status);
 	}
 
 	function getProposalInfo(uint256 _proposalid) public view returns (proposal memory proposalinfo) {
@@ -74,5 +91,11 @@ contract FCC is Ownable{
     function changeMinVoteRequired(uint256 _newVoteRequired) public onlyOwner(){
         VOTE_REQUIRED_FOR_APPROVAL = _newVoteRequired;
         emit ProposalMinVoteChanged(msg.sender, _newVoteRequired);
+    }
+
+    function calculateVoteper10000(uint256 _percentage) public view returns(uint256){
+        uint256 totalVotes = voter.getApprovedVoter();
+        uint256 voterequired = _percentage*totalVotes/10000;
+        return voterequired;
     }
 }
