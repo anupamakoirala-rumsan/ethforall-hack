@@ -29,6 +29,7 @@ contract FCC is Ownable{
 
 
     mapping(uint256=>proposal) public proposalInfo;
+    mapping(address => mapping(uint256 =>bool))  public isVoted;
 
     uint256 public VOTE_REQUIRED_FOR_APPROVAL;
 
@@ -65,6 +66,7 @@ contract FCC is Ownable{
     function voteProposal(uint256 _proposalid,bool status) external  onlyVoter(){
         require(!acceptedProposal.contains(_proposalid), "FCC:Proposal already accepted");
         require(!rejectedProposal.contains(_proposalid), "FCC:Proposal already rejected");
+        require(!isVoted[msg.sender][_proposalid], "FCC:Already voted");
 		proposal storage _proposalInfo = proposalInfo[_proposalid];
         if(status){
             _proposalInfo.positiveVotes = ++_proposalInfo.positiveVotes;
@@ -81,6 +83,7 @@ contract FCC is Ownable{
             rejectedProposal.add(_proposalid);
             emit ProposalRejected(msg.sender, _proposalid, _proposalInfo.funding);}
         }
+        isVoted[msg.sender][_proposalid] = true;
 		emit ProposalVoted(msg.sender, _proposalid,status);
 	}
 
