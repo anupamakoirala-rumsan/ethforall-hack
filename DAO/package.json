@@ -73,6 +73,7 @@
     "date-fns": "^2.28.0",
     "deck.gl": "^8.8.2",
     "emoji-mart": "^5.1.0",
+    "ethers": "^5.7.2",
     "firebase": "^9.8.4",
     "framer-motion": "^6.3.16",
     "highlight.js": "^11.5.1",

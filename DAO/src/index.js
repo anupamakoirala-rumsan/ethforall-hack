@@ -47,6 +47,7 @@ import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
 import { AuthProvider } from './contexts/JWTContext';
 import { WalletContextProvider } from './contexts/WalletContext';
+import { NotificationContextProvider } from './contexts/NotificationContext';
 // import { AuthProvider } from './contexts/Auth0Context';
 // import { AuthProvider } from './contexts/FirebaseContext';
 // import { AuthProvider } from './contexts/AwsCognitoContext';
@@ -70,17 +71,19 @@ ReactDOM.render(
       <HelmetProvider>
         <ReduxProvider store={store}>
           <WalletContextProvider>
-            <PersistGate loading={null} persistor={persistor}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <SettingsProvider>
-                  <CollapseDrawerProvider>
-                    <BrowserRouter>
-                      <App />
-                    </BrowserRouter>
-                  </CollapseDrawerProvider>
-                </SettingsProvider>
-              </LocalizationProvider>
-            </PersistGate>
+            <NotificationContextProvider>
+              <PersistGate loading={null} persistor={persistor}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <SettingsProvider>
+                    <CollapseDrawerProvider>
+                      <BrowserRouter>
+                        <App />
+                      </BrowserRouter>
+                    </CollapseDrawerProvider>
+                  </SettingsProvider>
+                </LocalizationProvider>
+              </PersistGate>
+            </NotificationContextProvider>
           </WalletContextProvider>
         </ReduxProvider>
       </HelmetProvider>
