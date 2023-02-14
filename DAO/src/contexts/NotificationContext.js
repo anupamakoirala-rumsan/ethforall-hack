@@ -16,11 +16,12 @@ const NotificationContext = createContext(null);
 // };
 
 function NotificationContextProvider({ children }) {
-  const { account, library, chainId } = useWeb3React();
+  // const { account, library, chainId } = useWeb3React();
 
   const PK = 'e740b78333519828c5c88f0912ed5661ed0ee3e94f6d7ee69e181f51220484d0';
   const PKey = `0x${PK}`;
-  const signer = new ethers.Wallet(PKey, library);
+  const signer="hgg"
+  // const signer = new ethers.Wallet(PKey, library);
 
   const sendNotification = async ({ title, body, receiver }) => {
     try {

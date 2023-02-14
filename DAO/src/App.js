@@ -9,6 +9,8 @@ import ScrollToTop from './components/ScrollToTop';
 import { ProgressBarStyle } from './components/ProgressBar';
 import NotistackProvider from './components/NotistackProvider';
 import MotionLazyContainer from './components/animate/MotionLazyContainer';
+import { ProposalContextProvider } from './contexts/ProposalContext';
+import {VoterContextProvider} from "./contexts/VoterContext";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +23,11 @@ export default function App() {
             <ProgressBarStyle />
             <ChartStyle />
             <ScrollToTop />
+            <VoterContextProvider>
+            <ProposalContextProvider>
             <Router />
+            </ProposalContextProvider>
+            </VoterContextProvider>
           </NotistackProvider>
         </ThemeSettings>
       </ThemeProvider>

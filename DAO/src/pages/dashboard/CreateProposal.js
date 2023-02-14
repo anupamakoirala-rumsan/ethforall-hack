@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo,useContext } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,6 +25,7 @@ import {
 } from '../../components/hook-form';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import { ProposalContext } from 'src/contexts/ProposalContext';
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +46,8 @@ export default function ProposalsCreate({ isEdit, currentProposal }) {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
+
+  const {addProposal} = useContext(ProposalContext)
 
   const NewProposalSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -90,10 +93,12 @@ export default function ProposalsCreate({ isEdit, currentProposal }) {
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      navigate(PATH_DASHBOARD.proposals.root);
+      console.log("here")
+      await addProposal(values);
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      // reset();
+      // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+      // navigate(PATH_DASHBOARD.proposals.root);
     } catch (error) {
       console.error(error);
     }
