@@ -31,11 +31,36 @@ export const ProposalContextProvider = ({children}) => {
         let tx = await proposal.methods.voteProposal(propsalId, vote).send({from:account});
     }
 
+    const getProposedProposal = async () =>{
+        const {user} = payload;
+        const proposal = getContract(library, propsalAbi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
+
+        const proposedProposal = await proposal.methods.getProposedProposal(user).call();
+        return proposedProposal;
+        }
+
+    const getAllProposal = async () =>{
+        const proposal = getContract(library, propsalAbi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
+
+        const proposedProposal = await proposal.methods.getTotalProposal().call();
+
+        const proposals = [];
+        for(let i =0; i<proposedProposal; i++){
+            const proposal = await proposal.methods.getProposalInfo(i).call();
+            proposals.push(proposal);
+        }
+        return proposals;
+    }
+
     return (
         <ProposalContext.Provider value={{
             initialState:initialState,
             addProposal,
-            voteProposal}}>
+            getProposedProposal,
+            voteProposal,
+            getAllProposal
+            
+            }}>
             {children}
         </ProposalContext.Provider>
     )

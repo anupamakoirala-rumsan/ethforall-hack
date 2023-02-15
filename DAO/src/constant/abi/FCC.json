@@ -1,404 +1,494 @@
 {
     "contractName":"FCC",
     "abi": [
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "_voterAddress",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "previousOwner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "OwnershipTransferred",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "_finalVoter",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "_proposalId",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "funds",
-              "type": "uint256"
-            }
-          ],
-          "name": "ProposalAccepted",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "_owner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "_proposalId",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "funds",
-              "type": "uint256"
-            }
-          ],
-          "name": "ProposalAdded",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "_changedBy",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "_newVoteRequired",
-              "type": "uint256"
-            }
-          ],
-          "name": "ProposalMinVoteChanged",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "_finalVoter",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "_proposalId",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "funds",
-              "type": "uint256"
-            }
-          ],
-          "name": "ProposalRejected",
-          "type": "event"
-        },
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "address",
-              "name": "_voter",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "_proposalId",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "bool",
-              "name": "status",
-              "type": "bool"
-            }
-          ],
-          "name": "ProposalVoted",
-          "type": "event"
-        },
-        {
-          "inputs": [],
-          "name": "VOTE_REQUIRED_FOR_APPROVAL",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "components": [
-                {
-                  "internalType": "string",
-                  "name": "name",
-                  "type": "string"
-                },
-                {
-                  "internalType": "string",
-                  "name": "description",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "funding",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "proposalId",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "positiveVotes",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "negativeVotes",
-                  "type": "uint256"
-                }
-              ],
-              "internalType": "struct FCC.proposal",
-              "name": "ProposalInfo",
-              "type": "tuple"
-            }
-          ],
-          "name": "addProposal",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "_percentage",
-              "type": "uint256"
-            }
-          ],
-          "name": "calculateVoteper10000",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "_newVoteRequired",
-              "type": "uint256"
-            }
-          ],
-          "name": "changeMinVoteRequired",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "_proposalid",
-              "type": "uint256"
-            }
-          ],
-          "name": "getProposalInfo",
-          "outputs": [
-            {
-              "components": [
-                {
-                  "internalType": "string",
-                  "name": "name",
-                  "type": "string"
-                },
-                {
-                  "internalType": "string",
-                  "name": "description",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "funding",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "proposalId",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "positiveVotes",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "negativeVotes",
-                  "type": "uint256"
-                }
-              ],
-              "internalType": "struct FCC.proposal",
-              "name": "proposalinfo",
-              "type": "tuple"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "owner",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "proposalInfo",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "description",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "funding",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "proposalId",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "positiveVotes",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "negativeVotes",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "renounceOwnership",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "newOwner",
-              "type": "address"
-            }
-          ],
-          "name": "transferOwnership",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "_proposalid",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "status",
-              "type": "bool"
-            }
-          ],
-          "name": "voteProposal",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "voter",
-          "outputs": [
-            {
-              "internalType": "contract Voter",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        }
-      ]
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_voterAddress",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "OwnershipTransferred",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_finalVoter",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "_proposalId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "funds",
+            "type": "uint256"
+          }
+        ],
+        "name": "ProposalAccepted",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "_proposalId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "funds",
+            "type": "uint256"
+          }
+        ],
+        "name": "ProposalAdded",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_changedBy",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "_newVoteRequired",
+            "type": "uint256"
+          }
+        ],
+        "name": "ProposalMinVoteChanged",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_finalVoter",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "_proposalId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "funds",
+            "type": "uint256"
+          }
+        ],
+        "name": "ProposalRejected",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "_voter",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "_proposalId",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "status",
+            "type": "bool"
+          }
+        ],
+        "name": "ProposalVoted",
+        "type": "event"
+      },
+      {
+        "inputs": [],
+        "name": "VOTE_REQUIRED_FOR_APPROVAL",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_funding",
+            "type": "uint256"
+          }
+        ],
+        "name": "addProposal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_percentage",
+            "type": "uint256"
+          }
+        ],
+        "name": "calculateVoteper10000",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_newVoteRequired",
+            "type": "uint256"
+          }
+        ],
+        "name": "changeMinVoteRequired",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_proposalid",
+            "type": "uint256"
+          }
+        ],
+        "name": "getProposalInfo",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "funding",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "proposalId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "positiveVotes",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "negativeVotes",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct FCC.proposal",
+            "name": "proposalinfo",
+            "type": "tuple"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_account",
+            "type": "address"
+          }
+        ],
+        "name": "getProposedProposal",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "funding",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "proposalId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "positiveVotes",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "negativeVotes",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct FCC.proposal[]",
+            "name": "",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getTotalProposal",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "isVoted",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "proposalInfo",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "funding",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "proposalId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "positiveVotes",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "negativeVotes",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "proposedProposal",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_proposalid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "status",
+            "type": "bool"
+          }
+        ],
+        "name": "voteProposal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "voter",
+        "outputs": [
+          {
+            "internalType": "contract Voter",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ]
     
 }
