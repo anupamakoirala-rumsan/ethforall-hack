@@ -18,8 +18,15 @@ contract Voter is Ownable{
         uint256 voterId;
     }
 
+    struct user{
+        string name;
+        address wallet_address;
+    }
+
 
     mapping(address=>voter) public votersInfo;
+
+    mapping(address =>user) public usersInfo;
 
     mapping(address =>bool) public isVoter;
     mapping(address =>bool) public isUser;
@@ -32,9 +39,11 @@ contract Voter is Ownable{
 
 
     event VoterAdded(address indexed _account, address indexed addedBy);
+    event UserAdded(address indexed _account, address indexed addedBy);
     event VoterApproved(address indexed _account, address indexed approvedBy);
 
-    function user(address addr) public view returns(int success){
+
+    function userRole(address addr) public view returns(int success){
         if(isAdmin[addr]){
             return 0;
         }
@@ -49,8 +58,12 @@ contract Voter is Ownable{
         }
     }
 
-    function registerUser(address addr) public{
+    function registerUser(string memory name, address addr) public{
+        user storage _userInfo = usersInfo[addr];
         isUser[addr] = true;
+        _userInfo.name = name;
+        _userInfo.wallet_address = addr;
+        emit UserAdded(addr, msg.sender);
     }
 
     function addVoter(string memory name,address _address) public{

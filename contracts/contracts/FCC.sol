@@ -30,6 +30,7 @@ contract FCC is Ownable{
 
     mapping(uint256=>proposal) public proposalInfo;
     mapping(address => mapping(uint256 =>bool))  public isVoted;
+    mapping(address => uint256 []) public proposedProposal;
 
     uint256 public VOTE_REQUIRED_FOR_APPROVAL;
 
@@ -60,6 +61,7 @@ contract FCC is Ownable{
         proposalinfo.funding = _funding;
         proposalinfo.proposalId = _id;
         proposalId.increment();
+        proposedProposal[msg.sender].push(_id);
         emit ProposalAdded(msg.sender,_id,_funding);
     }
 
