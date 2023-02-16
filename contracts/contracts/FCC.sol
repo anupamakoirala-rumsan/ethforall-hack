@@ -18,6 +18,8 @@ contract FCC is Ownable{
 
     Counters.Counter private proposalId;
 
+
+
     struct proposal{
         string name;
         string description;
@@ -30,6 +32,7 @@ contract FCC is Ownable{
 
     mapping(uint256=>proposal) public proposalInfo;
     mapping(address => mapping(uint256 =>bool))  public isVoted;
+    mapping(address => uint256 []) public proposedProposal;
 
     uint256 public VOTE_REQUIRED_FOR_APPROVAL;
 
@@ -60,6 +63,7 @@ contract FCC is Ownable{
         proposalinfo.funding = _funding;
         proposalinfo.proposalId = _id;
         proposalId.increment();
+        proposedProposal[msg.sender].push(_id);
         emit ProposalAdded(msg.sender,_id,_funding);
     }
 
@@ -100,5 +104,18 @@ contract FCC is Ownable{
         uint256 totalVotes = voter.getApprovedVoter();
         uint256 voterequired = _percentage*totalVotes/10000;
         return voterequired;
+    }
+
+    function getProposedProposal(address _account) public view returns(proposal [] memory){
+        uint256 [] memory _proposedProposal = proposedProposal[_account];
+        proposal [] memory _proposedProposalInfo = new proposal[](_proposedProposal.length);
+        for(uint256 i = 0; i < _proposedProposal.length; i++){
+            _proposedProposalInfo[i] = proposalInfo[_proposedProposal[i]];
+        }
+        return _proposedProposalInfo;
+    }
+
+    function getTotalProposal() public view returns(uint256){
+        return proposalId.current();
     }
 }
