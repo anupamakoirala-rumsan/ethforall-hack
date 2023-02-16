@@ -88,7 +88,7 @@ function AuthProvider({ children }) {
           dispatch({
             type: 'INITIALIZE',
             payload: {
-              isAuthenticated: false,
+              isAuthenticated: true,
               user: null,
             },
           });

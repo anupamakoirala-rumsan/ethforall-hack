@@ -28,13 +28,15 @@ const BoxStyle = styled(CardActionArea)(({ theme }) => ({
 
 export default function WalletMode() {
   const { themeMode, onChangeMode } = useSettings();
-  const { connectWallet, account, slicedWalletAddress, logOut } = useContext(WalletContext);
+  const { connectWallet, account, slicedWalletAddress, logOut, walletLogin } = useContext(WalletContext);
 
   const handleWalletConnect = async (e) => {
     e.preventDefault();
     try {
       await connectWallet({
-        onSuccess: () => {
+        onSuccess: (data) => {
+          console.log({ data });
+          console.log({ account });
           console.log('Wallet login success');
         },
         onError: () => {

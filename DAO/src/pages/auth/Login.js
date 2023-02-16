@@ -14,7 +14,7 @@ import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 // sections
-import { LoginForm } from '../../sections/auth/login';
+import LoginForm from './LoginForm';
 
 // ----------------------------------------------------------------------
 
@@ -113,15 +113,11 @@ export default function Login() {
               </Tooltip> */}
             </Stack>
 
-            <Alert severity="info" sx={{ mb: 3 }}>
+            {/* <Alert severity="info" sx={{ mb: 3 }}>
               Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-            </Alert>
+            </Alert> */}
 
             <LoginForm />
-
-            {/* <LoadingButton fullWidth size="large" type="submit" variant="contained">
-              Connect Wallet
-            </LoadingButton> */}
 
             {!smUp && (
               <Typography variant="body2" align="center" sx={{ mt: 3 }}>
