@@ -13,16 +13,19 @@ import { PATH_AUTH } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import { WalletContext } from '../../contexts/WalletContext';
+import { VoterContext } from '../../contexts/VoterContext';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
 import Iconify from '../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../components/hook-form';
+import { USER_ROLE } from '../../constant/role';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const { login } = useAuth();
-  const { connectWallet } = useContext(WalletContext);
+  const { connectWallet, walletLogin } = useContext(WalletContext);
+  const { getUserRole } = useContext(VoterContext);
 
   const isMountedRef = useIsMountedRef();
 
@@ -54,7 +57,9 @@ export default function LoginForm() {
   const onSubmit = async (data) => {
     try {
       await connectWallet({
-        onSuccess: () => {
+        onSuccess: async () => {
+          const { role, account } = await getUserRole();
+          await walletLogin({ role: USER_ROLE[role], account });
           console.log('Wallet login success');
         },
         onError: () => {
@@ -62,7 +67,7 @@ export default function LoginForm() {
         },
       });
     } catch (err) {
-      console.log('Something went wrong');
+      console.log('Something went wrong', err);
     }
   };
 

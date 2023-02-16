@@ -93,15 +93,12 @@ function WalletContextProvider({ children }) {
     window.location.replace('/');
   }, []);
 
-  const walletLogin = async (account) => {
-    console.log({ account });
-    const role = 'admin';
-    const wallet = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+  const walletLogin = async (data) => {
     dispatch({
       type: 'WALLET_LOGIN',
       payload: {
-        account: wallet,
-        myRole: role,
+        account: data.account,
+        myRole: data.role,
       },
     });
   };

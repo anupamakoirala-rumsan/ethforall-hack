@@ -1,13 +1,10 @@
-import {
-    POLYGON_TEST_NET_CHAIN_ID
-} from "./blockchainConstants"
+import { POLYGON_TEST_NET_CHAIN_ID } from './blockchainConstants';
 
-export const CONTRACT_ADDRESS ={
-    voter:{
-        [POLYGON_TEST_NET_CHAIN_ID]:"0x157b07909baD0Cce8473812A29444F3A4Ad2AF3c"
-    },
-    proposal:{
-        [POLYGON_TEST_NET_CHAIN_ID]:"0x4EDD0A1a9A093Bf522205A24d3e8a1BaDf566A1d"
-    }
-
-}
+export const CONTRACT_ADDRESS = {
+  voter: {
+    [POLYGON_TEST_NET_CHAIN_ID]: '0xfEF6572fe6Dc6260d9CBAe01Bed59bD7B6D75877',
+  },
+  proposal: {
+    [POLYGON_TEST_NET_CHAIN_ID]: '0xC55b03B107Ffe6329C55AC727a8dE6833dd223e1',
+  },
+};
